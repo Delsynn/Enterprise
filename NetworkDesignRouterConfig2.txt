@@ -1,6 +1,6 @@
-Current configuration : 5545 bytes
+Current configuration : 5702 bytes
 !
-! Last configuration change at 13:55:07 UTC Wed Dec 20 2023
+! Last configuration change at 15:09:20 UTC Wed Dec 20 2023
 !
 version 15.4
 no service timestamps debug uptime
@@ -14,6 +14,7 @@ boot-start-marker
 boot-end-marker
 !
 !
+enable secret 5 $1$w5Ir$502DVRxTCk7lspVXxPK7M0
 !
 no aaa new-model
 !
@@ -50,6 +51,7 @@ ip dhcp pool BEZOEKERS
 !
 !
 !
+ip domain name ucll.local
 ip cef
 login on-success log
 no ipv6 cef
@@ -104,6 +106,7 @@ license boot module c2900 technology-package securityk9
 !
 !
 memory free low-watermark processor 68094
+username admin secret 5 $1$SvZ5$3KCgARMYaHCkPeQxuPbL11
 !
 redundancy
 !
@@ -111,6 +114,7 @@ redundancy
 !
 !
 !
+ip ssh version 2
 !
 !
 !
@@ -228,10 +232,10 @@ line 2
  transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
  stopbits 1
 line vty 0 4
- login
+ login local
  transport input ssh
-line vty 5 14
- login
+line vty 5 15
+ login local
  transport input ssh
 !
 scheduler allocate 20000 1000

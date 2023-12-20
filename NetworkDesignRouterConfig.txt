@@ -1,6 +1,6 @@
-Current configuration : 8448 bytes
+Current configuration : 8471 bytes
 !
-! Last configuration change at 12:24:15 UTC Wed Dec 20 2023
+! Last configuration change at 12:50:03 UTC Wed Dec 20 2023
 !
 version 15.4
 no service timestamps debug uptime
@@ -156,7 +156,7 @@ license boot module c2900 technology-package securityk9
 !
 !
 memory free low-watermark processor 68094
-username admin password 0 cisco
+username admin secret 5 $1$QBGN$/WrJsjy2wDc./vUYXbKDI.
 !
 redundancy
 !
