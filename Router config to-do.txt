@@ -1,0 +1,10 @@
+Router config to-do
+--------------------
+ip dhcp excluded addresses
+ip dhcp pools
+external interface assign ip and ip nat outside
+subinterfaces for trunking, assign gateway ips and ip nat inside
+router ospf
+pat rule
+default route
+access-list for pat rule
