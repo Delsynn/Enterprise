@@ -8,7 +8,7 @@ no service timestamps log uptime
 no service password-encryption
 service call-home
 !
-hostname R3
+hostname Routerdc
 !
 boot-start-marker
 boot-end-marker

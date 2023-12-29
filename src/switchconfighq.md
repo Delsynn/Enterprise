@@ -1,3 +1,8 @@
+## Switch Configuratie Headquarters
+
+Hierbij de configuratie voor de coreswitch van headquarters:
+
+```
 Current configuration : 5487 bytes
 !
 ! Last configuration change at 16:01:06 UTC Wed Dec 20 2023 by jeanbaptist
@@ -8,7 +13,7 @@ service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 !
-hostname S1
+hostname Switchhq
 !
 boot-start-marker
 boot-end-marker
@@ -228,3 +233,4 @@ line vty 5 15
  transport input ssh
 !
 end
+```

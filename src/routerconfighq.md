@@ -1,3 +1,8 @@
+## Router Configuratie Headquarters
+
+Hierbij de configuratie voor de router van headquarters:
+
+```
 Current configuration : 8471 bytes
 !
 ! Last configuration change at 12:50:03 UTC Wed Dec 20 2023
@@ -8,7 +13,7 @@ no service timestamps log uptime
 no service password-encryption
 service call-home
 !
-hostname R1
+hostname Routerhq
 !
 boot-start-marker
 boot-end-marker
@@ -344,3 +349,4 @@ line vty 5 15
 scheduler allocate 20000 1000
 !
 end
+```

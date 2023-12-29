@@ -1,6 +1,11 @@
-Current configuration : 5702 bytes
+## Router Configuratie Datacenter
+
+Hierbij de configuratie voor de router van het datacenter:
+
+```
+Current configuration : 5377 bytes
 !
-! Last configuration change at 15:09:20 UTC Wed Dec 20 2023
+! Last configuration change at 14:01:36 UTC Wed Dec 20 2023
 !
 version 15.4
 no service timestamps debug uptime
@@ -8,13 +13,13 @@ no service timestamps log uptime
 no service password-encryption
 service call-home
 !
-hostname R2
+hostname Routerdc
 !
 boot-start-marker
 boot-end-marker
 !
 !
-enable secret 5 $1$w5Ir$502DVRxTCk7lspVXxPK7M0
+enable secret 5 $1$RWym$fMHJaNLk1EQk25cy3udnb0
 !
 no aaa new-model
 !
@@ -34,19 +39,12 @@ call-home
 !
 !
 !
-ip dhcp excluded-address 192.168.140.1 192.168.140.10
-ip dhcp excluded-address 192.168.140.255
-ip dhcp excluded-address 192.168.150.1 192.168.150.10
-ip dhcp excluded-address 192.168.150.255
+ip dhcp excluded-address 192.168.210.1 192.168.210.10
+ip dhcp excluded-address 192.168.210.255
 !
-ip dhcp pool RD
- network 192.168.140.0 255.255.255.0
- default-router 192.168.140.1
- dns-server 8.8.8.8
-!
-ip dhcp pool BEZOEKERS
- network 192.168.150.0 255.255.255.0
- default-router 192.168.150.1
+ip dhcp pool DATACENTER
+ network 192.168.210.0 255.255.255.0
+ default-router 192.168.210.1
  dns-server 8.8.8.8
 !
 !
@@ -55,7 +53,6 @@ ip domain name ucll.local
 ip cef
 login on-success log
 no ipv6 cef
-!
 multilink bundle-name authenticated
 !
 !
@@ -101,26 +98,17 @@ crypto pki certificate chain TP-self-signed-932223096
   B1121CAA E3E12A03 7D0DB7C5 63EFDAA4 B842
         quit
 crypto pki certificate chain SLA-TrustPoint
-license udi pid CISCO2901/K9 sn FCZ1851955J
+license udi pid CISCO2901/K9 sn FCZ194163BZ
 license boot module c2900 technology-package securityk9
 !
 !
 memory free low-watermark processor 68094
-username admin secret 5 $1$SvZ5$3KCgARMYaHCkPeQxuPbL11
+username admin secret 5 $1$uxvj$XztU/eGgrc0C/FRoYCCsL/
 !
 redundancy
 !
 !
-!
-!
-!
 ip ssh version 2
-!
-!
-!
-!
-!
-!
 !
 !
 !
@@ -131,6 +119,7 @@ interface Embedded-Service-Engine0/0
 !
 interface GigabitEthernet0/0
  no ip address
+ ip virtual-reassembly in
  shutdown
  duplex auto
  speed auto
@@ -143,52 +132,41 @@ interface GigabitEthernet0/1
  duplex auto
  speed auto
 !
-interface GigabitEthernet0/1.140
- encapsulation dot1Q 140
- no ip address
+interface GigabitEthernet0/1.210
+ encapsulation dot1Q 210
+ ip address 192.168.210.1 255.255.255.0
  ip nat inside
  ip virtual-reassembly in
 !
-interface GigabitEthernet0/1.150
- encapsulation dot1Q 150
- no ip address
+interface GigabitEthernet0/1.220
+ encapsulation dot1Q 220
+ ip address 192.168.220.1 255.255.255.0
  ip nat inside
  ip virtual-reassembly in
 !
-interface GigabitEthernet0/1.160
- encapsulation dot1Q 160
- no ip address
+interface GigabitEthernet0/1.230
+ encapsulation dot1Q 230
+ ip address 192.168.230.1 255.255.255.0
  ip nat inside
  ip virtual-reassembly in
 !
-interface GigabitEthernet0/1.170
- encapsulation dot1Q 170
- no ip address
+interface GigabitEthernet0/1.240
+ encapsulation dot1Q 240
+ ip address 192.168.240.1 255.255.255.0
  ip nat inside
  ip virtual-reassembly in
 !
-interface GigabitEthernet0/1.180
- encapsulation dot1Q 180
- no ip address
- ip nat inside
- ip virtual-reassembly in
-!
-interface GigabitEthernet0/1.190
- encapsulation dot1Q 190
- no ip address
- ip nat inside
- ip virtual-reassembly in
-!
-interface GigabitEthernet0/1.200
- encapsulation dot1Q 200
- no ip address
+interface GigabitEthernet0/1.250
+ encapsulation dot1Q 250
+ ip address 192.168.250.1 255.255.255.0
  ip nat inside
  ip virtual-reassembly in
 !
 interface Serial0/0/0
- ip address 10.0.1.2 255.255.255.252
+ ip address 10.0.2.2 255.255.255.252
  ip nat inside
  ip virtual-reassembly in
+ clock rate 2000000
 !
 interface Serial0/0/1
  no ip address
@@ -196,15 +174,14 @@ interface Serial0/0/1
  clock rate 2000000
 !
 router ospf 1
- router-id 2.2.2.2
- network 10.0.1.0 0.0.0.3 area 0
- network 192.168.140.0 0.0.0.255 area 0
- network 192.168.150.0 0.0.0.255 area 0
- network 192.168.160.0 0.0.0.255 area 0
- network 192.168.170.0 0.0.0.255 area 0
- network 192.168.180.0 0.0.0.255 area 0
- network 192.168.190.0 0.0.0.255 area 0
- network 192.168.200.0 0.0.0.255 area 0
+ router-id 3.3.3.3
+ passive-interface GigabitEthernet0/1
+ network 10.0.2.0 0.0.0.3 area 0
+ network 192.168.210.0 0.0.0.255 area 0
+ network 192.168.220.0 0.0.0.255 area 0
+ network 192.168.230.0 0.0.0.255 area 0
+ network 192.168.240.0 0.0.0.255 area 0
+ network 192.168.250.0 0.0.0.255 area 0
 !
 ip forward-protocol nd
 !
@@ -212,7 +189,7 @@ ip http server
 ip http authentication local
 ip http secure-server
 !
-ip route 0.0.0.0 0.0.0.0 10.0.1.1
+ip route 0.0.0.0 0.0.0.0 10.0.2.1
 !
 !
 !
@@ -241,3 +218,4 @@ line vty 5 15
 scheduler allocate 20000 1000
 !
 end
+```
