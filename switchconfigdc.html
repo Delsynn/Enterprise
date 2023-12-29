@@ -1,0 +1,408 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Switch Configuratie Datacenter</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introductie.html">Introductie</a></li><li class="chapter-item expanded affix "><a href="routerconfighq.html">Router Configuratie HQ</a></li><li class="chapter-item expanded affix "><a href="routerconfigbranch.html">Router Configuratie Branch</a></li><li class="chapter-item expanded affix "><a href="routerconfigdc.html">Router Configuratie Datacenter</a></li><li class="chapter-item expanded affix "><a href="switchconfighq.html">Switch Configuratie HQ</a></li><li class="chapter-item expanded affix "><a href="switchconfigbranch.html">Switch Configuratie Branch</a></li><li class="chapter-item expanded affix "><a href="switchconfigdc.html" class="active">Switch Configuratie Datacenter</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="switch-configuratie-datacenter"><a class="header" href="#switch-configuratie-datacenter">Switch Configuratie Datacenter</a></h2>
+<p>Hierbij de configuratie voor de coreswitch van het datacenter:</p>
+<pre><code>Current configuration : 5936 bytes
+!
+! Last configuration change at 11:02:59 UTC Tue Dec 19 2023
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Switchdc
+!
+boot-start-marker
+boot-end-marker
+!
+!
+username admin privilege 15 secret 9 $9$WVoeQT1iEvWGeW$g0X8rabYR0yk29tIj2xx0N7IpSmZegmC0aP22sx23ho
+no aaa new-model
+switch 1 provision c1000-24t-4g-l
+system mtu routing 1500
+!
+!
+no ip domain-lookup
+ip domain-name uclllabs.local
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-117245440
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-117245440
+ revocation-check none
+ rsakeypair TP-self-signed-117245440
+!
+!
+crypto pki certificate chain TP-self-signed-117245440
+ certificate self-signed 01
+  30820229 30820192 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 31313732 34353434 30301E17 0D323331 30303531 31303530
+  325A170D 33303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3131 37323435
+  34343030 819F300D 06092A86 4886F70D 01010105 0003818D 00308189 02818100
+  AC5C3DE9 42FAB031 8C1133B5 8131F7D5 C7B3505F CD7B7FEA 6E79A91E E44A2C88
+  CE098D25 9C82EF81 41F93809 E6B1F840 A6E124C7 DE6BCF30 0FB48150 745DDFF3
+  9A94F23B 00F9527D 3B168C5D 93040DE1 A36DE154 FE7CCEDC 4B7F1CE2 851CFF56
+  51DF7E20 DBA43D80 5E237B1A 9BD79DF0 57FDE1C0 988FAC23 91314FB2 E15B53F5
+  02030100 01A35330 51300F06 03551D13 0101FF04 05300301 01FF301F 0603551D
+  23041830 16801439 1FD01D83 33DADFFD 46C30076 10B81FC2 C3B86F30 1D060355
+  1D0E0416 0414391F D01D8333 DADFFD46 C3007610 B81FC2C3 B86F300D 06092A86
+  4886F70D 01010505 00038181 00123EB9 3EE9C0F2 CB2CB016 78BB4254 3DD0A6AF
+  BB424FE8 3C8F447B 91757CFA 380001CA 40E6FACF 5DA69805 F17DD7CA 548B2A85
+  22050398 325C860C 1B425141 79BF9F8C 0E26A77B BBB77DD9 C42369F8 BA8D252D
+  FD90861D D39EADAB 12FD0375 7AD2444A 115F01B7 A38AC4A5 A401C214 D136F9CF
+  2B2EE0D0 51CFA1DA 152C4DA9 43
+        quit
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet1/0/1
+ switchport trunk native vlan 99
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/2
+ switchport access vlan 210
+ switchport mode access
+  switchport port-security violation restrict
+ switchport port-security mac-address sticky
+ switchport port-security aging time 60
+ switchport port-security
+!
+interface GigabitEthernet1/0/3
+ switchport access vlan 220
+ switchport mode access
+  switchport port-security violation restrict
+ switchport port-security mac-address sticky
+ switchport port-security aging time 60
+ switchport port-security
+!
+interface GigabitEthernet1/0/4
+ switchport access vlan 230
+ switchport mode access
+  switchport port-security violation restrict
+ switchport port-security mac-address sticky
+ switchport port-security aging time 60
+ switchport port-security
+!
+interface GigabitEthernet1/0/5
+ switchport access vlan 240
+ switchport mode access
+  switchport port-security violation restrict
+ switchport port-security mac-address sticky
+ switchport port-security aging time 60
+ switchport port-security
+!
+interface GigabitEthernet1/0/6
+ switchport access vlan 250
+ switchport mode access
+ switchport port-security violation restrict
+ switchport port-security mac-address sticky
+ switchport port-security aging time 60
+ switchport port-security
+!
+interface GigabitEthernet1/0/7
+!
+interface GigabitEthernet1/0/8
+!
+interface GigabitEthernet1/0/9
+
+!
+interface GigabitEthernet1/0/10
+
+!
+interface GigabitEthernet1/0/11
+
+!
+interface GigabitEthernet1/0/12
+
+!
+interface GigabitEthernet1/0/13
+
+!
+interface GigabitEthernet1/0/14
+
+!
+interface GigabitEthernet1/0/15
+
+!
+interface GigabitEthernet1/0/16
+
+!
+interface GigabitEthernet1/0/17
+
+!
+interface GigabitEthernet1/0/18
+!
+interface GigabitEthernet1/0/19
+!
+interface GigabitEthernet1/0/20
+!
+interface GigabitEthernet1/0/21
+!
+interface GigabitEthernet1/0/22
+!
+interface GigabitEthernet1/0/23
+!
+interface GigabitEthernet1/0/24
+!
+interface GigabitEthernet1/0/25
+!
+interface GigabitEthernet1/0/26
+!
+interface GigabitEthernet1/0/27
+!
+interface GigabitEthernet1/0/28
+!
+interface Vlan1
+ no ip address
+!
+ip http server
+ip http secure-server
+!
+!
+!
+!
+line con 0
+line vty 0 4
+ login
+ transport input none
+line vty 5 15
+ login local
+ transport input ssh
+!
+end
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="switchconfigbranch.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="switchconfigbranch.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
