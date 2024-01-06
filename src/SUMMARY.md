@@ -7,3 +7,7 @@
 [Switch Configuratie HQ](switchconfighq.md)
 [Switch Configuratie Branch](switchconfigbranch.md)
 [Switch Configuratie Datacenter](switchconfigdc.md)
+
+# PfSense
+
+[Tot slot](totslot.md)
